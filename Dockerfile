@@ -19,4 +19,4 @@ RUN chmod +x wait-for-it.sh
 EXPOSE 8080
 
 # Espera a que MySQL esté disponible
-ENTRYPOINT ["./wait-for-it.sh", "db:3306", "--", "java", "-jar", "demo.jar"]
+ENTRYPOINT ["./wait-for-it.sh", "db", "3306", "--", "java", "-jar", "demo.jar"]
