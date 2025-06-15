@@ -7,16 +7,16 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21
 WORKDIR /app
 
-# Instala netcat
-RUN apt-get update && apt-get install -y netcat && apt-get clean
+# ✅ Instala netcat (versión válida)
+RUN apt-get update && apt-get install -y netcat-openbsd && apt-get clean
 
 COPY --from=build /app/target/*demo-*.jar demo.jar
 COPY wait-for-it.sh .
 
-# Da permisos de ejecución al script
+# Da permisos al script
 RUN chmod +x wait-for-it.sh
 
 EXPOSE 8080
 
-# Usa el script para esperar a MySQL antes de iniciar
+# Espera a que MySQL esté disponible
 ENTRYPOINT ["./wait-for-it.sh", "db:3306", "--", "java", "-jar", "demo.jar"]
